@@ -39,24 +39,21 @@ async def on_message(message):
             channel = message.author.voice.channel
             vc = await channel.connect()
             if vc not in played_sounds:
-                sound_path = Path('sounds/Zone.mp3')  
+                sound_path = Path('sounds/Zone.mp3')
                 if sound_path.exists():
-                    source = discord.PCMVolumeTransformer(discord.FFmpegPCMAudio(str(sound_path)))
+                    source = discord.PCMVolumeTransformer(discord.FFmpegPCMAudio(source='sounds/Zone.mp3', executable='C:/ffmpeg/bin/ffmpeg.exe'))
                     vc.play(source)
                     played_sounds.append(vc)
             else:
-                # inform the user that the sound has already been played
                 await message.channel.send('The sound has already been played.')
         else:
             await message.channel.send("You're not in a voice channel.")
 
-    elif message.content.startswith('/gaybol'):
+    elif message.content.startswith('$gaybol'):
         for vc in client.voice_clients:
             if vc.guild == message.guild:
                 await vc.disconnect()
-                # remove the voice client from the list of played sounds
-                if vc in played_sounds:
-                    played_sounds.remove(vc)
+                played_sounds.remove(vc)
                 break
 
     elif message.content.startswith('/yardım'):
