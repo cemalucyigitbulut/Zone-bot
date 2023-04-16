@@ -37,6 +37,7 @@ async def on_message(message):
     if message.content.startswith('/gellan'):
         if message.author.voice:
             channel = message.author.voice.channel
+            await message.channel.send('geldim lan geldim')
             vc = await channel.connect()
             if vc not in played_sounds:
                 sound_path = Path('sounds/Zone.mp3')
@@ -44,16 +45,14 @@ async def on_message(message):
                     source = discord.PCMVolumeTransformer(discord.FFmpegPCMAudio(source='sounds/Zone.mp3', executable='C:/ffmpeg/bin/ffmpeg.exe'))
                     vc.play(source)
                     played_sounds.append(vc)
-            else:
-                await message.channel.send('The sound has already been played.')
-        else:
-            await message.channel.send("You're not in a voice channel.")
+            
 
-    elif message.content.startswith('$gaybol'):
+    elif message.content.startswith('/gaybol'):
         for vc in client.voice_clients:
             if vc.guild == message.guild:
                 await vc.disconnect()
                 played_sounds.remove(vc)
+                await message.channel.send('bay bay lan')
                 break
 
     elif message.content.startswith('/yardım'):
@@ -61,8 +60,22 @@ async def on_message(message):
         help_message = '''
         `/gellan` - kanala gelir
         `/gaybol` - kanaldan gider
-        `/yardım` - yardım gösterir
+        `/yardım` - yardım gösterir 
+        `/gonuş` - çenıldaysa cumzonu bidaha söyler
         '''
         await message.channel.send(help_message)
+
+    elif message.content.startswith('/gonuş'):
+        # play the sound if the bot is already in a voice channel
+        for vc in client.voice_clients:
+            if vc.guild == message.guild:
+                sound_path = Path('sounds/Zone.mp3')
+                if sound_path.exists():
+                    source = discord.PCMVolumeTransformer(discord.FFmpegPCMAudio(executable="C:/ffmpeg/bin/ffmpeg.exe", source=str(sound_path)))
+                    vc.play(source)
+                    played_sounds.append(vc)
+                    break
+        else:
+            await message.channel.send("odada deyilim lan mal")
 
 client.run(TOKEN, log_handler=handler, log_level=logging.DEBUG)
