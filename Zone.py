@@ -58,9 +58,9 @@ async def on_message(message):
     elif message.content.startswith('/yardım'):
         # display a help message
         help_message = '''
-        `/gellan` - kanala gelir
-        `/gaybol` - kanaldan gider
-        `/yardım` - yardım gösterir 
+        `/gellan` - kanala gelörem
+        `/gaybol` - kanaldan gidörem
+        `/yardım` - yardım gösterörem 
         `/gonuş` - çenıldaysa cumzonu bidaha söyler
         '''
         await message.channel.send(help_message)
